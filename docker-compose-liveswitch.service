@@ -1,0 +1,22 @@
+# /etc/systemd/system/docker-compose-liveswitch.service
+# systemctl enable docker-compose-liveswitch.service
+# systemctl enable docker
+
+[Unit]
+Description=Docker Compose LiveSwitch Service
+Requires=docker.service
+After=docker.service
+
+[Service]
+# this needs to point to the location of the docker-compose.yml
+WorkingDirectory=/opt/liveswitch
+ExecStart=/usr/local/bin/docker-compose up
+ExecStop=/usr/local/bin/docker-compose down
+TimeoutStartSec=0
+Restart=on-failure
+StartLimitIntervalSec=60
+StartLimitBurst=3
+KillMode=none
+
+[Install]
+WantedBy=multi-user.target
